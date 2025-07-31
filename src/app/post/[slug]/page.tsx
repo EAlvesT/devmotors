@@ -1,15 +1,15 @@
 import { Suspense } from 'react';
 import { getItemBySlug } from '@/utils/actions/get-data';
 import { PostProps } from '@/utils/post.type';
-import { Metadata } from 'next';
+import { Metadata, ResolvingMetadata } from 'next';
 import { Content } from './components/content';
 import { LoadingPost } from './components/loading';
 
 export async function generateMetadata({ params }: {
-    params: { slug: string }
+    params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
     try {
-        const { slug } = params;
+        const { slug } = await params;
         const { objects }: PostProps = await getItemBySlug(slug)
             .catch(() => {
                 return {
@@ -46,8 +46,8 @@ export async function generateMetadata({ params }: {
     }
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
-    const { slug } = params;
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
 
     return (
         <>
