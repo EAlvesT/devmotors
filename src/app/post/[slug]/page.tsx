@@ -7,18 +7,18 @@ import { LoadingPost } from './components/loading';
 
 export async function generateMetadata({ params }: {
     params: { slug: string }
-}): Promise<Metadata>{
-    try{
-        const { slug } = await params;
+}): Promise<Metadata> {
+    try {
+        const { slug } = params;
         const { objects }: PostProps = await getItemBySlug(slug)
-        .catch(() => {
-            return {
-                title: "DevMotors - Sua oficina especializada!",
-                description: "Oficina de carros em São Paulo"
-            }
-        })
+            .catch(() => {
+                return {
+                    title: "DevMotors - Sua oficina especializada!",
+                    description: "Oficina de carros em São Paulo"
+                }
+            })
 
-        return{
+        return {
             title: `DevMotors - ${objects[0].title}`,
             description: `${objects[0].metadata.description.text}`,
             keywords: ["devmotors", "troca de oleo", "devmotors troca de oleo", `${objects[0].title}`],
@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: {
             }
         }
 
-    }catch(err){
+    } catch (err) {
         return {
             title: "DevMotors - Sua oficina especializada!",
             description: "Oficina de carros em São Paulo"
@@ -46,13 +46,13 @@ export async function generateMetadata({ params }: {
     }
 }
 
-export default async function Page({ params }: { params: { slug: string } }){
-    const { slug } = await params;
+export default async function Page({ params }: { params: { slug: string } }) {
+    const { slug } = params;
 
-    return(
+    return (
         <>
-            <Suspense fallback={<LoadingPost/>}>
-                <Content slug={slug}/>
+            <Suspense fallback={<LoadingPost />}>
+                <Content slug={slug} />
             </Suspense>
         </>
     )
